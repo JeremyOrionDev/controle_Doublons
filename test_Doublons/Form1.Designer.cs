@@ -41,7 +41,7 @@
             // 
             // btnFichier
             // 
-            this.btnFichier.Location = new System.Drawing.Point(21, 25);
+            this.btnFichier.Location = new System.Drawing.Point(12, 12);
             this.btnFichier.Name = "btnFichier";
             this.btnFichier.Size = new System.Drawing.Size(75, 23);
             this.btnFichier.TabIndex = 0;
@@ -51,10 +51,10 @@
             // 
             // tBxAdress
             // 
-            this.tBxAdress.Location = new System.Drawing.Point(134, 27);
+            this.tBxAdress.Location = new System.Drawing.Point(111, 14);
             this.tBxAdress.Name = "tBxAdress";
             this.tBxAdress.ReadOnly = true;
-            this.tBxAdress.Size = new System.Drawing.Size(241, 20);
+            this.tBxAdress.Size = new System.Drawing.Size(264, 20);
             this.tBxAdress.TabIndex = 1;
             // 
             // openFileDialog1
@@ -64,7 +64,7 @@
             // lblColonnes
             // 
             this.lblColonnes.AutoSize = true;
-            this.lblColonnes.Location = new System.Drawing.Point(18, 115);
+            this.lblColonnes.Location = new System.Drawing.Point(18, 76);
             this.lblColonnes.Name = "lblColonnes";
             this.lblColonnes.Size = new System.Drawing.Size(51, 13);
             this.lblColonnes.TabIndex = 2;
@@ -72,16 +72,16 @@
             // 
             // tBxColonnes
             // 
-            this.tBxColonnes.Location = new System.Drawing.Point(134, 112);
+            this.tBxColonnes.Location = new System.Drawing.Point(111, 73);
             this.tBxColonnes.Name = "tBxColonnes";
             this.tBxColonnes.ReadOnly = true;
-            this.tBxColonnes.Size = new System.Drawing.Size(241, 20);
+            this.tBxColonnes.Size = new System.Drawing.Size(264, 20);
             this.tBxColonnes.TabIndex = 3;
             // 
             // lblLignes
             // 
             this.lblLignes.AutoSize = true;
-            this.lblLignes.Location = new System.Drawing.Point(18, 156);
+            this.lblLignes.Location = new System.Drawing.Point(18, 102);
             this.lblLignes.Name = "lblLignes";
             this.lblLignes.Size = new System.Drawing.Size(38, 13);
             this.lblLignes.TabIndex = 2;
@@ -89,16 +89,16 @@
             // 
             // tBxLigne
             // 
-            this.tBxLigne.Location = new System.Drawing.Point(134, 153);
+            this.tBxLigne.Location = new System.Drawing.Point(111, 99);
             this.tBxLigne.Name = "tBxLigne";
             this.tBxLigne.ReadOnly = true;
-            this.tBxLigne.Size = new System.Drawing.Size(241, 20);
+            this.tBxLigne.Size = new System.Drawing.Size(264, 20);
             this.tBxLigne.TabIndex = 3;
             // 
             // lblFeuille
             // 
             this.lblFeuille.AutoSize = true;
-            this.lblFeuille.Location = new System.Drawing.Point(18, 71);
+            this.lblFeuille.Location = new System.Drawing.Point(18, 50);
             this.lblFeuille.Name = "lblFeuille";
             this.lblFeuille.Size = new System.Drawing.Size(42, 13);
             this.lblFeuille.TabIndex = 2;
@@ -106,10 +106,10 @@
             // 
             // tBxFeuilles
             // 
-            this.tBxFeuilles.Location = new System.Drawing.Point(134, 68);
+            this.tBxFeuilles.Location = new System.Drawing.Point(111, 47);
             this.tBxFeuilles.Name = "tBxFeuilles";
             this.tBxFeuilles.ReadOnly = true;
-            this.tBxFeuilles.Size = new System.Drawing.Size(241, 20);
+            this.tBxFeuilles.Size = new System.Drawing.Size(264, 20);
             this.tBxFeuilles.TabIndex = 3;
             // 
             // Form1
