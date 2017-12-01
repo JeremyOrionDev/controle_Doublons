@@ -21,8 +21,11 @@ namespace test_Doublons
       
 
         private string fileAdress;
-        int j ;
+        int j, nbLigne;
+        
         string[] decoupe;
+       
+        int colNb;
         Excel.Application xlsApp = new Excel.Application();
         StringComparer SC = StringComparer.Ordinal;
         StringComparer Test = StringComparer.Ordinal;
@@ -47,20 +50,22 @@ namespace test_Doublons
                 fileAdress = tBxAdress.Text = openFileDialog1.FileName;
                 using (var reader = new StreamReader(fileAdress))
                 {
-                    var text = File.ReadAllLines(fileAdress).Select(part => part.Split(';'));
-                    for (int i = 0; i < text.Count(); i++)
+                    var text = File.ReadAllLines(fileAdress);
+                    colNb = text[0].Split(';').Count();
+                    nbLigne = text.Length;
+                     string[][] colonnes = new string[colNb][];
+          
+       
+                    for (int line=0; line<text.Length;line++)
                     {
-                        for (int j = 0; j < text.ElementAt(i).Count(); j++)
+                        string myLine = text[line];
+                        MessageBox.Show("la ligne >>"+myLine);
+                        for (int i = 0; i < colNb; i++)
                         {
-                            MessageBox.Show("ceci est le mot <"+(j+1)+"> de la ligne <"+(i+1)+"> et c'est >>"+text.ElementAt(i).ElementAt(j));
-                        }
-                    }
-                    foreach (var item in text)
-                    {
-                        foreach (string word in item)
-                        {
-
-                        MessageBox.Show("un element = "+word);
+                            string leSplit = text[line].Substring(0, ';');
+                            MessageBox.Show("la découpe >>"+leSplit);
+                            colonnes[line][i] = text[line].Split(';')[i];
+                            MessageBox.Show("la ligne >"+line+"< a la colonne >"+i+"< contient: "+colonnes[line][i]);
                         }
                     }
                     List<string> listeA = new List<string>();
