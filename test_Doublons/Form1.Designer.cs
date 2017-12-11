@@ -38,24 +38,33 @@
             this.lblChoixSeparateur = new System.Windows.Forms.Label();
             this.comboSeparateur = new System.Windows.Forms.ComboBox();
             this.flowComplet = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelFichier = new System.Windows.Forms.Panel();
             this.flowSeparateur = new System.Windows.Forms.FlowLayoutPanel();
             this.flowColonnes = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLigne = new System.Windows.Forms.FlowLayoutPanel();
             this.flowRecherche = new System.Windows.Forms.FlowLayoutPanel();
             this.lblSel = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.rbtLigne = new System.Windows.Forms.RadioButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.rbtColonne = new System.Windows.Forms.RadioButton();
+            this.rbtLigne = new System.Windows.Forms.RadioButton();
             this.comboColonne = new System.Windows.Forms.ComboBox();
             this.btnRecherche = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.dtgridResult = new System.Windows.Forms.DataGridView();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnExportDoublons = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.flowComplet.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelFichier.SuspendLayout();
             this.flowSeparateur.SuspendLayout();
             this.flowColonnes.SuspendLayout();
             this.flowLigne.SuspendLayout();
             this.flowRecherche.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgridResult)).BeginInit();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnFichier
@@ -133,33 +142,35 @@
             this.comboSeparateur.Name = "comboSeparateur";
             this.comboSeparateur.Size = new System.Drawing.Size(49, 21);
             this.comboSeparateur.TabIndex = 5;
+            this.comboSeparateur.SelectedIndexChanged += new System.EventHandler(this.comboSeparateur_SelectedIndexChanged);
             // 
             // flowComplet
             // 
             this.flowComplet.AutoSize = true;
-            this.flowComplet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowComplet.Controls.Add(this.panel1);
+            this.flowComplet.Controls.Add(this.panelFichier);
             this.flowComplet.Controls.Add(this.flowSeparateur);
             this.flowComplet.Controls.Add(this.flowColonnes);
             this.flowComplet.Controls.Add(this.flowLigne);
             this.flowComplet.Controls.Add(this.flowRecherche);
+            this.flowComplet.Controls.Add(this.flowLayoutPanel1);
+            this.flowComplet.Controls.Add(this.dtgridResult);
+            this.flowComplet.Controls.Add(this.flowLayoutPanel3);
             this.flowComplet.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowComplet.Location = new System.Drawing.Point(12, 12);
-            this.flowComplet.MaximumSize = new System.Drawing.Size(442, 206);
             this.flowComplet.MinimumSize = new System.Drawing.Size(440, 40);
             this.flowComplet.Name = "flowComplet";
-            this.flowComplet.Size = new System.Drawing.Size(440, 189);
+            this.flowComplet.Size = new System.Drawing.Size(443, 511);
             this.flowComplet.TabIndex = 6;
             this.flowComplet.WrapContents = false;
             // 
-            // panel1
+            // panelFichier
             // 
-            this.panel1.Controls.Add(this.btnFichier);
-            this.panel1.Controls.Add(this.tBxAdress);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(420, 30);
-            this.panel1.TabIndex = 11;
+            this.panelFichier.Controls.Add(this.btnFichier);
+            this.panelFichier.Controls.Add(this.tBxAdress);
+            this.panelFichier.Location = new System.Drawing.Point(3, 3);
+            this.panelFichier.Name = "panelFichier";
+            this.panelFichier.Size = new System.Drawing.Size(420, 30);
+            this.panelFichier.TabIndex = 11;
             // 
             // flowSeparateur
             // 
@@ -203,7 +214,7 @@
             this.flowRecherche.Location = new System.Drawing.Point(3, 141);
             this.flowRecherche.Name = "flowRecherche";
             this.flowRecherche.Padding = new System.Windows.Forms.Padding(5, 10, 0, 0);
-            this.flowRecherche.Size = new System.Drawing.Size(419, 45);
+            this.flowRecherche.Size = new System.Drawing.Size(404, 45);
             this.flowRecherche.TabIndex = 12;
             this.flowRecherche.Visible = false;
             // 
@@ -219,50 +230,57 @@
             // 
             // flowLayoutPanel2
             // 
-            this.flowLayoutPanel2.Controls.Add(this.rbtLigne);
-            this.flowLayoutPanel2.Controls.Add(this.rbtColonne);
+            this.flowLayoutPanel2.AutoSize = true;
+            this.flowLayoutPanel2.Controls.Add(this.panel1);
             this.flowLayoutPanel2.Controls.Add(this.comboColonne);
             this.flowLayoutPanel2.Controls.Add(this.btnRecherche);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(92, 13);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(324, 29);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(309, 29);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
-            // rbtLigne
+            // panel1
             // 
-            this.rbtLigne.AutoSize = true;
-            this.rbtLigne.Checked = true;
-            this.rbtLigne.Location = new System.Drawing.Point(3, 3);
-            this.rbtLigne.Name = "rbtLigne";
-            this.rbtLigne.Size = new System.Drawing.Size(86, 17);
-            this.rbtLigne.TabIndex = 0;
-            this.rbtLigne.TabStop = true;
-            this.rbtLigne.Text = "Ligne entière";
-            this.rbtLigne.UseVisualStyleBackColor = true;
+            this.panel1.Controls.Add(this.rbtColonne);
+            this.panel1.Controls.Add(this.rbtLigne);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(168, 23);
+            this.panel1.TabIndex = 4;
             // 
             // rbtColonne
             // 
-            this.rbtColonne.AutoCheck = false;
             this.rbtColonne.AutoSize = true;
             this.rbtColonne.Location = new System.Drawing.Point(95, 3);
             this.rbtColonne.Name = "rbtColonne";
             this.rbtColonne.Size = new System.Drawing.Size(64, 17);
             this.rbtColonne.TabIndex = 1;
-            this.rbtColonne.TabStop = true;
             this.rbtColonne.Text = "Colonne";
             this.rbtColonne.UseVisualStyleBackColor = true;
+            this.rbtColonne.CheckedChanged += new System.EventHandler(this.rbtColonne_CheckedChanged);
+            // 
+            // rbtLigne
+            // 
+            this.rbtLigne.AutoSize = true;
+            this.rbtLigne.Location = new System.Drawing.Point(3, 3);
+            this.rbtLigne.Name = "rbtLigne";
+            this.rbtLigne.Size = new System.Drawing.Size(86, 17);
+            this.rbtLigne.TabIndex = 0;
+            this.rbtLigne.Text = "Ligne entière";
+            this.rbtLigne.UseVisualStyleBackColor = true;
+            this.rbtLigne.CheckedChanged += new System.EventHandler(this.rbtLigne_CheckedChanged);
             // 
             // comboColonne
             // 
             this.comboColonne.FormattingEnabled = true;
-            this.comboColonne.Location = new System.Drawing.Point(165, 3);
+            this.comboColonne.Location = new System.Drawing.Point(177, 3);
             this.comboColonne.Name = "comboColonne";
             this.comboColonne.Size = new System.Drawing.Size(48, 21);
             this.comboColonne.TabIndex = 2;
             // 
             // btnRecherche
             // 
-            this.btnRecherche.Location = new System.Drawing.Point(219, 3);
+            this.btnRecherche.Location = new System.Drawing.Point(231, 3);
             this.btnRecherche.Name = "btnRecherche";
             this.btnRecherche.Size = new System.Drawing.Size(75, 23);
             this.btnRecherche.TabIndex = 3;
@@ -270,21 +288,73 @@
             this.btnRecherche.UseVisualStyleBackColor = true;
             this.btnRecherche.Click += new System.EventHandler(this.btnRecherche_Click);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 192);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
+            this.flowLayoutPanel1.TabIndex = 7;
+            // 
+            // dtgridResult
+            // 
+            this.dtgridResult.AllowUserToAddRows = false;
+            this.dtgridResult.AllowUserToDeleteRows = false;
+            this.dtgridResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+            this.dtgridResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dtgridResult.Location = new System.Drawing.Point(3, 198);
+            this.dtgridResult.MultiSelect = false;
+            this.dtgridResult.Name = "dtgridResult";
+            this.dtgridResult.ReadOnly = true;
+            this.dtgridResult.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.dtgridResult.Size = new System.Drawing.Size(437, 95);
+            this.dtgridResult.TabIndex = 7;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.btnExportDoublons);
+            this.flowLayoutPanel3.Controls.Add(this.button2);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 299);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(420, 100);
+            this.flowLayoutPanel3.TabIndex = 16;
+            // 
+            // btnExportDoublons
+            // 
+            this.btnExportDoublons.Location = new System.Drawing.Point(3, 3);
+            this.btnExportDoublons.Name = "btnExportDoublons";
+            this.btnExportDoublons.Size = new System.Drawing.Size(118, 23);
+            this.btnExportDoublons.TabIndex = 15;
+            this.btnExportDoublons.Text = "exporter les doublons";
+            this.btnExportDoublons.UseVisualStyleBackColor = true;
+            this.btnExportDoublons.Click += new System.EventHandler(this.btnExportDoublons_Click);
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.Location = new System.Drawing.Point(127, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(148, 23);
+            this.button2.TabIndex = 16;
+            this.button2.Text = "export fichier sans doublons";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // formRechercheDoublons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(480, 256);
+            this.ClientSize = new System.Drawing.Size(463, 591);
             this.Controls.Add(this.flowComplet);
             this.MinimumSize = new System.Drawing.Size(450, 70);
             this.Name = "formRechercheDoublons";
             this.Text = "Outil de recherche de doublons";
             this.flowComplet.ResumeLayout(false);
             this.flowComplet.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelFichier.ResumeLayout(false);
+            this.panelFichier.PerformLayout();
             this.flowSeparateur.ResumeLayout(false);
             this.flowColonnes.ResumeLayout(false);
             this.flowColonnes.PerformLayout();
@@ -293,7 +363,11 @@
             this.flowRecherche.ResumeLayout(false);
             this.flowRecherche.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgridResult)).EndInit();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,7 +388,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowColonnes;
         private System.Windows.Forms.FlowLayoutPanel flowLigne;
         private System.Windows.Forms.FlowLayoutPanel flowSeparateur;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelFichier;
         private System.Windows.Forms.FlowLayoutPanel flowRecherche;
         private System.Windows.Forms.Label lblSel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
@@ -322,6 +396,12 @@
         private System.Windows.Forms.RadioButton rbtColonne;
         private System.Windows.Forms.ComboBox comboColonne;
         private System.Windows.Forms.Button btnRecherche;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.DataGridView dtgridResult;
+        private System.Windows.Forms.Button btnExportDoublons;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button2;
     }
 }
 
