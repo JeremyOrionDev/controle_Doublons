@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formRechercheDoublons));
             this.btnFichier = new System.Windows.Forms.Button();
             this.tBxAdress = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -52,9 +53,12 @@
             this.btnRecherche = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.dtgridResult = new System.Windows.Forms.DataGridView();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flow3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowBoutons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnExportDoublons = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnExportFichier = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.flowComplet.SuspendLayout();
             this.panelFichier.SuspendLayout();
             this.flowSeparateur.SuspendLayout();
@@ -64,7 +68,8 @@
             this.flowLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgridResult)).BeginInit();
-            this.flowLayoutPanel3.SuspendLayout();
+            this.flow3.SuspendLayout();
+            this.flowBoutons.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnFichier
@@ -83,7 +88,7 @@
             this.tBxAdress.Location = new System.Drawing.Point(95, 6);
             this.tBxAdress.Name = "tBxAdress";
             this.tBxAdress.ReadOnly = true;
-            this.tBxAdress.Size = new System.Drawing.Size(260, 20);
+            this.tBxAdress.Size = new System.Drawing.Size(324, 20);
             this.tBxAdress.TabIndex = 1;
             // 
             // openFileDialog1
@@ -147,6 +152,7 @@
             // flowComplet
             // 
             this.flowComplet.AutoSize = true;
+            this.flowComplet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowComplet.Controls.Add(this.panelFichier);
             this.flowComplet.Controls.Add(this.flowSeparateur);
             this.flowComplet.Controls.Add(this.flowColonnes);
@@ -154,12 +160,12 @@
             this.flowComplet.Controls.Add(this.flowRecherche);
             this.flowComplet.Controls.Add(this.flowLayoutPanel1);
             this.flowComplet.Controls.Add(this.dtgridResult);
-            this.flowComplet.Controls.Add(this.flowLayoutPanel3);
+            this.flowComplet.Controls.Add(this.flow3);
             this.flowComplet.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowComplet.Location = new System.Drawing.Point(12, 12);
             this.flowComplet.MinimumSize = new System.Drawing.Size(440, 40);
             this.flowComplet.Name = "flowComplet";
-            this.flowComplet.Size = new System.Drawing.Size(443, 511);
+            this.flowComplet.Size = new System.Drawing.Size(536, 347);
             this.flowComplet.TabIndex = 6;
             this.flowComplet.WrapContents = false;
             // 
@@ -307,17 +313,33 @@
             this.dtgridResult.Name = "dtgridResult";
             this.dtgridResult.ReadOnly = true;
             this.dtgridResult.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dtgridResult.Size = new System.Drawing.Size(437, 95);
+            this.dtgridResult.Size = new System.Drawing.Size(420, 95);
             this.dtgridResult.TabIndex = 7;
+            this.dtgridResult.Visible = false;
             // 
-            // flowLayoutPanel3
+            // flow3
             // 
-            this.flowLayoutPanel3.Controls.Add(this.btnExportDoublons);
-            this.flowLayoutPanel3.Controls.Add(this.button2);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 299);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(420, 100);
-            this.flowLayoutPanel3.TabIndex = 16;
+            this.flow3.AutoSize = true;
+            this.flow3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flow3.Controls.Add(this.flowBoutons);
+            this.flow3.Controls.Add(this.btnExit);
+            this.flow3.Controls.Add(this.panel2);
+            this.flow3.Location = new System.Drawing.Point(3, 299);
+            this.flow3.Name = "flow3";
+            this.flow3.Size = new System.Drawing.Size(530, 45);
+            this.flow3.TabIndex = 18;
+            // 
+            // flowBoutons
+            // 
+            this.flowBoutons.AutoSize = true;
+            this.flowBoutons.Controls.Add(this.btnExportDoublons);
+            this.flowBoutons.Controls.Add(this.btnExportFichier);
+            this.flowBoutons.Location = new System.Drawing.Point(3, 3);
+            this.flowBoutons.Margin = new System.Windows.Forms.Padding(3, 3, 55, 3);
+            this.flowBoutons.Name = "flowBoutons";
+            this.flowBoutons.Size = new System.Drawing.Size(278, 29);
+            this.flowBoutons.TabIndex = 16;
+            this.flowBoutons.Visible = false;
             // 
             // btnExportDoublons
             // 
@@ -329,16 +351,35 @@
             this.btnExportDoublons.UseVisualStyleBackColor = true;
             this.btnExportDoublons.Click += new System.EventHandler(this.btnExportDoublons_Click);
             // 
-            // button2
+            // btnExportFichier
             // 
-            this.button2.AutoSize = true;
-            this.button2.Location = new System.Drawing.Point(127, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(148, 23);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "export fichier sans doublons";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnExportFichier.Location = new System.Drawing.Point(127, 3);
+            this.btnExportFichier.Name = "btnExportFichier";
+            this.btnExportFichier.Size = new System.Drawing.Size(148, 23);
+            this.btnExportFichier.TabIndex = 16;
+            this.btnExportFichier.Text = "export fichier sans doublons";
+            this.btnExportFichier.UseVisualStyleBackColor = true;
+            this.btnExportFichier.Click += new System.EventHandler(this.btnExportFichier_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Font = new System.Drawing.Font("DejaVu Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.Location = new System.Drawing.Point(339, 3);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(107, 39);
+            this.btnExit.TabIndex = 19;
+            this.btnExit.Text = "EXIT";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.AutoSize = true;
+            this.panel2.Location = new System.Drawing.Point(527, 3);
+            this.panel2.Margin = new System.Windows.Forms.Padding(78, 3, 3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(0, 0);
+            this.panel2.TabIndex = 18;
             // 
             // formRechercheDoublons
             // 
@@ -346,8 +387,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(463, 591);
+            this.ClientSize = new System.Drawing.Size(463, 592);
             this.Controls.Add(this.flowComplet);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(450, 70);
             this.Name = "formRechercheDoublons";
             this.Text = "Outil de recherche de doublons";
@@ -366,8 +408,9 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgridResult)).EndInit();
-            this.flowLayoutPanel3.ResumeLayout(false);
-            this.flowLayoutPanel3.PerformLayout();
+            this.flow3.ResumeLayout(false);
+            this.flow3.PerformLayout();
+            this.flowBoutons.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -399,9 +442,12 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridView dtgridResult;
         private System.Windows.Forms.Button btnExportDoublons;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.FlowLayoutPanel flowBoutons;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnExportFichier;
+        private System.Windows.Forms.FlowLayoutPanel flow3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnExit;
     }
 }
 

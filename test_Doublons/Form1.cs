@@ -15,6 +15,7 @@ namespace test_Doublons
 {
     public partial class formRechercheDoublons : Form
     {
+        List<int> doubles = new List<int>();
         private string fileAdress;
         int[][] tableauComplet;
         int[][] lesDoublons;
@@ -36,9 +37,11 @@ namespace test_Doublons
         StringComparer Test = StringComparer.Ordinal;
         public formRechercheDoublons()
         {
-            InitializeComponent();
-            dtgridResult.Visible = false;
 
+            InitializeComponent();
+            flow3.Width = panelFichier.Width - 60;
+            
+            //On rempli la comboBox avec les séparateurs courants
             foreach (var item in lesSeparateurs)
             {
                 comboSeparateur.Items.Add(item);
@@ -47,13 +50,10 @@ namespace test_Doublons
 
         private void btnFichier_Click(object sender, EventArgs e)
         {
-
-
-
             // Create an instance of the open file dialog box.
             openFileDialog1 = new OpenFileDialog();
 
-
+            // Après validation du fichier sélectionné
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileAdress = tBxAdress.Text = openFileDialog1.FileName;
@@ -79,7 +79,7 @@ namespace test_Doublons
 
             string[] fichier = File.ReadAllLines(fileAdress);
             string myAdresse = @"C:\isra\" + fileName + "_sans_doublons" + fileExt;
-          
+            flowBoutons.Visible = true;
      
             Boolean chercheLigne = true;
             if (rbtColonne.Checked) chercheLigne = false;
@@ -146,7 +146,7 @@ namespace test_Doublons
             DT.Columns.Add(new DataColumn("élément", typeof(string)));
             DT.Columns.Add(new DataColumn("Origine", typeof(string)));
             DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
-            List<int> doubles = new List<int>();
+            
             for (int x = 0; x < lesDoublons.Count(); x++)
             {
                 DR = DT.NewRow();
@@ -155,14 +155,14 @@ namespace test_Doublons
                 DR[0] = text[lesDoublons[x][0]];
                 DR[1] = lesDoublons[x][0]+1;
 
-                for (int i = 1; i < lesDoublons[x].Count(); i++)
+                for (int i = 0; i < lesDoublons[x].Count(); i++)
                 {
-                    doubles.Add(lesDoublons[x][0]);
-                    if (!doubles.Contains(lesDoublons[x][i]))
+                    //doubles.Add(lesDoublons[x][0]);
+                    if (!doubles.Contains(lesDoublons[x][i])&&i!=0&&lesDoublons[x][i]>lesDoublons[x][i-1])
                     {
                         doubles.Add(lesDoublons[x][i]);
                         lines = lines + (lesDoublons[x][i]+1) + ";";
-                        aSupprimer.Add(lesDoublons[x][i]);
+                        
                     }
 
                 }
@@ -178,10 +178,12 @@ namespace test_Doublons
                 dtgridResult.DataSource = DT;
                 dtgridResult.Height = dtgridResult.RowCount * 20 + 70;
                 dtgridResult.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                dtgridResult.Columns[1].Width = 400;
+                dtgridResult.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                dtgridResult.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 dtgridResult.AutoSize = true;
                 dtgridResult.Refresh();
-
+               
+                flow3.Width = dtgridResult.Width;
             }
                 
 
@@ -247,14 +249,48 @@ namespace test_Doublons
                 MessageBox.Show("Data Exported");
             }
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExportFichier_Click(object sender, EventArgs e)
         {
-            foreach (int num in aSupprimer )
+            
+            List<string> textList = new List<string>();
+            foreach (string item in text)
             {
+                textList.Add(item);
+            }
+            int nb = text.Count();
+            int reduc = 0;
+            for (int i =0;i<doubles.Count()-1;i++ )
+            {
+                int I = doubles[i] - reduc;
+                textList.RemoveAt(I);
+                reduc++;
                 
             }
+            string name = System.IO.Path.GetFileNameWithoutExtension(fileAdress);
+            string date = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString();
+            string adress = fileDirectory + @"\" + name + "_export_sans_doublons_"+date + fileExt;
+            StreamWriter SW = new StreamWriter(adress);
+            for (int i = 0; i < textList.Count(); i++)
+            {
+                SW.WriteLine(textList[i]);
+            }
+            SW.Close();
+            if (MessageBox.Show("fichier enregistrer sous: "+"\n"+adress+"\n"+"Voulez-vous ouvrir le document crée?","export terminé",MessageBoxButtons.YesNo)==DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start(adress);
+            }
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
     }
 
