@@ -107,6 +107,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="recherche.ico" />
+    <Content Include="Resources\affichage_départ.JPG" />
+    <Content Include="Resources\choix_fichier.JPG" />
+    <Content Include="Resources\demarrage.JPG" />
+    <Content Include="Resources\résultat.JPG" />
+    <Content Include="Resources\selection_séparateur.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
