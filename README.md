@@ -2,7 +2,7 @@
 #Logiciel de contrôle de doublons au sein d'un fichier de données type CSV ou texte#
 
 Après sélection du fichier source:
-![Affichage_choix_fichier]({{site.baseurl}}/choix_fichier.JPG)
+![Affichage_choix_fichier](choix_fichier.JPG)
 
 Récupération du nombre de lignes du fichier:
 ![Affichage_lignes]({{site.baseurl}}/affichage_départ.JPG)
