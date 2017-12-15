@@ -22,6 +22,7 @@ namespace test_Doublons
         int nbLigne;
         List<string> lesSeparateurs = new List<string> { ",", ";", "/", "TAB", "-" };
         string fileName;
+        int nbCol;
         string fileExt;
         char sep;
         int colNb;
@@ -58,8 +59,10 @@ namespace test_Doublons
             {
                 fileAdress = tBxAdress.Text = openFileDialog1.FileName;
                 original = File.ReadAllLines(fileAdress);
-      
-                nbLigne = original.Count();
+                if (original[original.Count()-1]=="")
+                {
+                    nbLigne = original.Count() - 1;
+                } else nbLigne = original.Count();
                 flowLigne.Visible = true;
                 flowSeparateur.Visible = true;
                 FileInfo f = new FileInfo(fileAdress);
@@ -79,7 +82,7 @@ namespace test_Doublons
 
             string[] fichier = File.ReadAllLines(fileAdress);
             string myAdresse = @"C:\isra\" + fileName + "_sans_doublons" + fileExt;
-            flowBoutons.Visible = true;
+            
      
             Boolean chercheLigne = true;
             if (rbtColonne.Checked) chercheLigne = false;
@@ -92,7 +95,7 @@ namespace test_Doublons
                 text = new string[nbLigne];
                 for (int i = 0; i < nbLigne; i++)
                 {
-                    text[i] = original[i].Split(sep)[comboColonne.SelectedIndex+1];
+                    text[i] = original[i].Split(sep)[comboColonne.SelectedIndex];
                 }
             }
             List<int> listeDbl = new List<int>();
@@ -139,53 +142,60 @@ namespace test_Doublons
                     lesDoublons[i][j + 1] = tempDbl[j];
                 }
             }
-            System.Data.DataTable DT = new System.Data.DataTable();
-            DataRow DR;
-            dtgridResult.Visible = true;
-
-            DT.Columns.Add(new DataColumn("élément", typeof(string)));
-            DT.Columns.Add(new DataColumn("Origine", typeof(string)));
-            DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
-            
-            for (int x = 0; x < lesDoublons.Count(); x++)
+            if (lesDoublons.Count()==0)
             {
-                DR = DT.NewRow();
-                string lines = "";
+                MessageBox.Show("Aucun doublon trouvé dans le fichier ");
+            }
+            else
+            {
+                flowBoutons.Visible = true;
+                System.Data.DataTable DT = new System.Data.DataTable();
+                DataRow DR;
+                dtgridResult.Visible = true;
 
-                DR[0] = text[lesDoublons[x][0]];
-                DR[1] = lesDoublons[x][0]+1;
-
-                for (int i = 0; i < lesDoublons[x].Count(); i++)
+                DT.Columns.Add(new DataColumn("élément", typeof(string)));
+                DT.Columns.Add(new DataColumn("Origine", typeof(string)));
+                DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
+         
+                for (int x = 0; x < lesDoublons.Count(); x++)
                 {
-                    //doubles.Add(lesDoublons[x][0]);
-                    if (!doubles.Contains(lesDoublons[x][i])&&i!=0&&lesDoublons[x][i]>lesDoublons[x][i-1])
+                    DR = DT.NewRow();
+                    string lines = "";
+
+                    DR[0] = text[lesDoublons[x][0]];
+                    DR[1] = lesDoublons[x][0]+1;
+
+                    for (int i = 0; i < lesDoublons[x].Count(); i++)
                     {
-                        doubles.Add(lesDoublons[x][i]);
-                        lines = lines + (lesDoublons[x][i]+1) + ";";
+                        //doubles.Add(lesDoublons[x][0]);
+                        if (!doubles.Contains(lesDoublons[x][i])&&i!=0&&lesDoublons[x][i]>lesDoublons[x][i-1])
+                        {
+                            doubles.Add(lesDoublons[x][i]);
+                            lines = lines + (lesDoublons[x][i]+1) + ";";
                         
+                        }
+
+                    }
+                    if (lines != "")
+                    {
+                        DR[2] = lines;
+
+                        DT.Rows.Add(DR);
+
                     }
 
-                }
-                if (lines != "")
-                {
-                    DR[2] = lines;
-
-                    DT.Rows.Add(DR);
-
-                }
-
-                //MessageBox.Show("l'élément "+x+" contient : "+lines);
-                dtgridResult.DataSource = DT;
-                dtgridResult.Height = dtgridResult.RowCount * 20 + 70;
-                dtgridResult.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                dtgridResult.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-                dtgridResult.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                dtgridResult.AutoSize = true;
-                dtgridResult.Refresh();
+                    //MessageBox.Show("l'élément "+x+" contient : "+lines);
+                    dtgridResult.DataSource = DT;
+                    dtgridResult.Height = dtgridResult.RowCount * 20 + 70;
+                    dtgridResult.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    dtgridResult.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+                    dtgridResult.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    dtgridResult.AutoSize = true;
+                    dtgridResult.Refresh();
                
-                flow3.Width = dtgridResult.Width;
+                    flow3.Width = dtgridResult.Width;
+                }
             }
-                
 
         }
 
@@ -193,15 +203,27 @@ namespace test_Doublons
         {
             comboColonne.Items.Clear();
             sep = comboSeparateur.SelectedItem.ToString()[0];
-            int nbCol = original[0].Split(sep).Count();
-            this.tBxColonnes.Text = nbCol.ToString() + " colonnes.";
-            this.flowColonnes.Visible = true;
-            flowLigne.Visible = true;
-            flowRecherche.Visible = true;
-            for (int i = 0; i < nbCol; i++)
+            if (original[0].IndexOf(sep)==-1)
             {
-                comboColonne.Items.Add(i+1);
+                MessageBox.Show("Erreur la ligne ne contient pas le séparateur sélectionné");
             }
+            else
+            {
+                if (original[0].LastIndexOf(sep)==original[0].Length-1)
+                {
+                    nbCol = (original[0].Split(sep).Count())-1;
+                }
+                else nbCol = original[0].Split(sep).Count();
+                this.tBxColonnes.Text = nbCol.ToString() + " colonnes.";
+                this.flowColonnes.Visible = true;
+                flowLigne.Visible = true;
+                flowRecherche.Visible = true;
+                for (int i = 0; i < nbCol; i++)
+                {
+                    comboColonne.Items.Add(i+1);
+                }
+            }
+
         }
 
         private void rbtLigne_CheckedChanged(object sender, EventArgs e)
