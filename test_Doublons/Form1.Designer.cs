@@ -81,7 +81,7 @@
             this.btnFichier.TabIndex = 0;
             this.btnFichier.Text = "&Fichier";
             this.btnFichier.UseVisualStyleBackColor = true;
-            this.btnFichier.Click += new System.EventHandler(this.btnFichier_Click);
+            this.btnFichier.Click += new System.EventHandler(this.BtnFichier_Click);
             // 
             // tBxAdress
             // 
@@ -151,7 +151,6 @@
             // 
             // flowComplet
             // 
-            this.flowComplet.AutoSize = true;
             this.flowComplet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowComplet.Controls.Add(this.panelFichier);
             this.flowComplet.Controls.Add(this.flowSeparateur);
@@ -165,7 +164,7 @@
             this.flowComplet.Location = new System.Drawing.Point(12, 12);
             this.flowComplet.MinimumSize = new System.Drawing.Size(440, 40);
             this.flowComplet.Name = "flowComplet";
-            this.flowComplet.Size = new System.Drawing.Size(536, 347);
+            this.flowComplet.Size = new System.Drawing.Size(455, 347);
             this.flowComplet.TabIndex = 6;
             this.flowComplet.WrapContents = false;
             // 
@@ -326,7 +325,7 @@
             this.flow3.Controls.Add(this.panel2);
             this.flow3.Location = new System.Drawing.Point(3, 299);
             this.flow3.Name = "flow3";
-            this.flow3.Size = new System.Drawing.Size(530, 45);
+            this.flow3.Size = new System.Drawing.Size(444, 51);
             this.flow3.TabIndex = 18;
             // 
             // flowBoutons
@@ -335,7 +334,7 @@
             this.flowBoutons.Controls.Add(this.btnExportDoublons);
             this.flowBoutons.Controls.Add(this.btnExportFichier);
             this.flowBoutons.Location = new System.Drawing.Point(3, 3);
-            this.flowBoutons.Margin = new System.Windows.Forms.Padding(3, 3, 55, 3);
+            this.flowBoutons.Margin = new System.Windows.Forms.Padding(3, 3, 50, 3);
             this.flowBoutons.Name = "flowBoutons";
             this.flowBoutons.Size = new System.Drawing.Size(278, 29);
             this.flowBoutons.TabIndex = 16;
@@ -364,7 +363,7 @@
             // btnExit
             // 
             this.btnExit.Font = new System.Drawing.Font("DejaVu Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Location = new System.Drawing.Point(339, 3);
+            this.btnExit.Location = new System.Drawing.Point(334, 3);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(107, 39);
             this.btnExit.TabIndex = 19;
@@ -375,7 +374,7 @@
             // panel2
             // 
             this.panel2.AutoSize = true;
-            this.panel2.Location = new System.Drawing.Point(527, 3);
+            this.panel2.Location = new System.Drawing.Point(78, 48);
             this.panel2.Margin = new System.Windows.Forms.Padding(78, 3, 3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(0, 0);
@@ -412,7 +411,6 @@
             this.flow3.PerformLayout();
             this.flowBoutons.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

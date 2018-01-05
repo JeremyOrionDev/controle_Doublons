@@ -15,59 +15,80 @@ namespace test_Doublons
 {
     public partial class formRechercheDoublons : Form
     {
+        
+        /// <summary>
+        /// Liste du numero des lignes trouvées en double
+        /// </summary>
         List<int> doubles = new List<int>();
-        private string fileAdress;
-        int[][] tableauComplet;
-        int[][] lesDoublons;
-        int nbLigne;
         List<string> lesSeparateurs = new List<string> { ",", ";", "/", "TAB", "-" };
-        string fileName;
-        int nbCol;
-        string fileExt;
+
+        //Déclaration des variables de type chaines
+        private string fileAdress;
+        string fileName,fileExt,fileDirectory;
+
+        //Déclaration des variables de type tableau de chaines
+        string[] text, original;
+
+        //Déclaration des tableau d'entiers
+        int[][] tableauComplet, lesDoublons;
+
+        //Délaration des entiers
+        int nbLigne,nbCol;
+
+        //Charactère séparateur sélectionné
         char sep;
-        int colNb;
-        int[] lineSearch;
-        string[] byLine;
-        string[] text;
-        string[] original;
-        int[] leDoublon;
-        List<int> aSupprimer = new List<int>();
-        double chargement;
-        string fileDirectory;
-        StringComparer SC = StringComparer.Ordinal;
-        StringComparer Test = StringComparer.Ordinal;
+
+
         public formRechercheDoublons()
         {
 
             InitializeComponent();
             flow3.Width = panelFichier.Width - 60;
             
-            //On rempli la comboBox avec les séparateurs courants
+            //Remplissage de la comboBox avec les séparateurs courants
             foreach (var item in lesSeparateurs)
             {
                 comboSeparateur.Items.Add(item);
             }
         }
 
-        private void btnFichier_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Méthode appelée au clic sur le bouton de sélection du fichier d'origine
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnFichier_Click(object sender, EventArgs e)
         {
-            // Create an instance of the open file dialog box.
+            // Creation d'une instance de la boite de dialogue de sélection de fichier.
             openFileDialog1 = new OpenFileDialog();
 
             // Après validation du fichier sélectionné
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                //On récupère l'adresse du fichier d'origine et on l'affiche dans la textbox prévue à cet effet
                 fileAdress = tBxAdress.Text = openFileDialog1.FileName;
+
+                //Récupération du texte du fichier d'origine ligne par ligne
                 original = File.ReadAllLines(fileAdress);
+
+                //Adaptation de la taille de la textbox à la longueur de l'adresse du fichier
+                tBxAdress.Width = fileAdress.Length * 20;
+                Size size = TextRenderer.MeasureText(tBxAdress.Text, tBxAdress.Font);
+                tBxAdress.Width = size.Width;
+
+                //Récupération du nombre de lignes
                 if (original[original.Count()-1]=="")
                 {
                     nbLigne = original.Count() - 1;
                 } else nbLigne = original.Count();
+
+                //Affichage des différentes zones
                 flowLigne.Visible = true;
                 flowSeparateur.Visible = true;
+
+                //Récupération des informations du fichier (nom, extension et chemin)
                 FileInfo f = new FileInfo(fileAdress);
                 fileName = f.Name;
-
                 fileExt = f.Extension;
                 tBxLigne.Text = nbLigne.ToString()+" lignes.";
                 fileDirectory = f.DirectoryName;        
@@ -76,16 +97,18 @@ namespace test_Doublons
 
         }
 
+        /// <summary>
+        /// Méthode appelée lors de l'appui sur le bouton recherche
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRecherche_Click(object sender, EventArgs e)
-        {
-            int compteur = 0;
-
-            string[] fichier = File.ReadAllLines(fileAdress);
-            string myAdresse = @"C:\isra\" + fileName + "_sans_doublons" + fileExt;
-            
-     
+        {           
+            //déclaration du booléen de type de recherche (ligne ou colonne) et modification en fonction du type de recherche
             Boolean chercheLigne = true;
             if (rbtColonne.Checked) chercheLigne = false;
+
+            //Modification du fichier à analyser en fonction du mode de recherche
             if (chercheLigne)
             {
                 text = original;
@@ -98,12 +121,18 @@ namespace test_Doublons
                     text[i] = original[i].Split(sep)[comboColonne.SelectedIndex];
                 }
             }
+            //Création de la liste des doubles
             List<int> listeDbl = new List<int>();
+            //Création du tableau des doublons complet de la taille du nombre de lignes
             tableauComplet = new int[nbLigne][];
+            //compteur de doublons trouvé par élément
             int totalDoublons = 0;
+
+            //Boucle de recherche
             for (int i = 0; i < nbLigne; i++)
             {
                 int nbDoublon = 0;
+
                 tableauComplet[i] = new int[10];
                 for (int j = 0; j < nbLigne; j++)
                 {
@@ -122,7 +151,9 @@ namespace test_Doublons
 
 
             }
+            //Création de la liste de doublons en fonction de leur nombre
             lesDoublons = new int[listeDbl.Count()][];
+            //Boucle de remplissage du tableau de doublons
             for (int i = 0; i < listeDbl.Count(); i++)
             {
                 List<int> tempDbl = new List<int>();
@@ -142,13 +173,18 @@ namespace test_Doublons
                     lesDoublons[i][j + 1] = tempDbl[j];
                 }
             }
+
+            //Si aucun doublon n'est trouvé on l'affiche
             if (lesDoublons.Count()==0)
             {
                 MessageBox.Show("Aucun doublon trouvé dans le fichier ");
             }
             else
             {
+                //affichage des boutons d'exports
                 flowBoutons.Visible = true;
+
+                //Création de la datatable affichant les résultats
                 System.Data.DataTable DT = new System.Data.DataTable();
                 DataRow DR;
                 dtgridResult.Visible = true;
@@ -156,7 +192,8 @@ namespace test_Doublons
                 DT.Columns.Add(new DataColumn("élément", typeof(string)));
                 DT.Columns.Add(new DataColumn("Origine", typeof(string)));
                 DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
-         
+                
+                //Boucle de remplissage de de la dataTable avec les doublons et numero de lignes
                 for (int x = 0; x < lesDoublons.Count(); x++)
                 {
                     DR = DT.NewRow();
@@ -167,57 +204,65 @@ namespace test_Doublons
 
                     for (int i = 0; i < lesDoublons[x].Count(); i++)
                     {
-                        //doubles.Add(lesDoublons[x][0]);
                         if (!doubles.Contains(lesDoublons[x][i])&&i!=0&&lesDoublons[x][i]>lesDoublons[x][i-1])
                         {
                             doubles.Add(lesDoublons[x][i]);
-                            lines = lines + (lesDoublons[x][i]+1) + ";";
-                        
+                            lines = lines + (lesDoublons[x][i]+1) + ";";                        
                         }
-
                     }
+                    //Ajout des lignes qui contiennent des doublons uniquement
                     if (lines != "")
                     {
                         DR[2] = lines;
-
                         DT.Rows.Add(DR);
 
                     }
 
-                    //MessageBox.Show("l'élément "+x+" contient : "+lines);
+                    //Préparation de la dataGrid pour l'affichage 
                     dtgridResult.DataSource = DT;
                     dtgridResult.Height = dtgridResult.RowCount * 20 + 70;
                     dtgridResult.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                     dtgridResult.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
                     dtgridResult.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                     dtgridResult.AutoSize = true;
-                    dtgridResult.Refresh();
-               
+                    dtgridResult.Refresh();               
                     flow3.Width = dtgridResult.Width;
                 }
             }
 
         }
 
+        /// <summary>
+        /// Méthode appelée lors du choix des séparateurs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboSeparateur_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboColonne.Items.Clear();
+            //Récupération du séparateur choisi
             sep = comboSeparateur.SelectedItem.ToString()[0];
+            //Vérification de l'existence du séparateur avec la première ligne du fichier à analyser
             if (original[0].IndexOf(sep)==-1)
             {
                 MessageBox.Show("Erreur la ligne ne contient pas le séparateur sélectionné");
             }
             else
             {
+                //Vérification du dernier caractère, si celui-ci est un séparateur et récupération du nombre de colonnes
                 if (original[0].LastIndexOf(sep)==original[0].Length-1)
                 {
                     nbCol = (original[0].Split(sep).Count())-1;
                 }
                 else nbCol = original[0].Split(sep).Count();
+
+                //Affichage du nombre de colonnes trouvées 
                 this.tBxColonnes.Text = nbCol.ToString() + " colonnes.";
                 this.flowColonnes.Visible = true;
                 flowLigne.Visible = true;
                 flowRecherche.Visible = true;
+
+                //Ajout du nombre de colonne au sélecteur
                 for (int i = 0; i < nbCol; i++)
                 {
                     comboColonne.Items.Add(i+1);
@@ -226,8 +271,14 @@ namespace test_Doublons
 
         }
 
+        /// <summary>
+        /// Méthode appelée au clic sur le radio bouton de sélection du mode de recherche
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void rbtLigne_CheckedChanged(object sender, EventArgs e)
         {
+            
             if (rbtLigne.Checked==true)
             {
                 rbtColonne.Checked = false;
@@ -242,22 +293,32 @@ namespace test_Doublons
             }
         }
 
+        /// <summary>
+        /// Méthode appelée au clic sur le bouton export
+        /// Création d'un tableau contenant les doublons trouvés avec les numéro de lignes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExportDoublons_Click(object sender, EventArgs e)
         {
+            //Création d'un tableau de chaine en fonction des résultats obtenus précédemment
             string[] export = new string[dtgridResult.Rows.Count];
+            //Contrôle de l'existence de doublons
             if (dtgridResult.Rows.Count==0)
             {
                 MessageBox.Show("erreur le tableau est vide!");
             }
             else
             {
-                string name=System.IO.Path.GetFileNameWithoutExtension(fileAdress);
-                MessageBox.Show("directory = "+"\n"+fileDirectory+"\n"+name);
+                //Récupération du nom du fichier et de l'adresse
+                string name=Path.GetFileNameWithoutExtension(fileAdress);
                 string adress = fileDirectory + @"\" + name + "_export_doublons" + fileExt;
+                //Appel de l'outil d'écriture et formatage du fichier de sortie
                 TextWriter writer = new StreamWriter(adress);
                 writer.Write("\t" + "élément " + "\t" + "|" + "\t" + "ligne Originale" + "\t" + "|" + "\t" + "Doublons" + "\t"+"\n");
                 writer.WriteLine("");
                 writer.WriteLine("-----------------------------------------------------");
+                //Boucle de remplissage du fichier
                 for (int i = 0; i < dtgridResult.Rows.Count ; i++)
                 {
                     for (int j = 0; j < dtgridResult.Columns.Count; j++)
@@ -268,17 +329,18 @@ namespace test_Doublons
                     writer.WriteLine("-----------------------------------------------------");
                 }
                 writer.Close();
-                MessageBox.Show("Data Exported");
+                MessageBox.Show("Fichier contenant le tableau des doublons trouvés crée :"+"\n"+adress);
             }
         }
         /// <summary>
-        /// 
+        /// Méthode appelée au clic sur le bouton d'export
+        /// Création du fichier final sans doublon et enregistrement
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnExportFichier_Click(object sender, EventArgs e)
         {
-            
+            //Création de la liste de chaines et boucle de remplissage
             List<string> textList = new List<string>();
             foreach (string item in text)
             {
@@ -293,9 +355,11 @@ namespace test_Doublons
                 reduc++;
                 
             }
-            string name = System.IO.Path.GetFileNameWithoutExtension(fileAdress);
+            //Récupération des infos de fichier et déclaration du nom de fichier de sortie
+            string name = Path.GetFileNameWithoutExtension(fileAdress);
             string date = DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString();
             string adress = fileDirectory + @"\" + name + "_export_sans_doublons_"+date + fileExt;
+            //Utilisation de l'outil d'écriture 
             StreamWriter SW = new StreamWriter(adress);
             for (int i = 0; i < textList.Count(); i++)
             {
