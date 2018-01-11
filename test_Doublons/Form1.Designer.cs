@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formRechercheDoublons));
             this.btnFichier = new System.Windows.Forms.Button();
             this.tBxAdress = new System.Windows.Forms.TextBox();
@@ -54,11 +55,17 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.dtgridResult = new System.Windows.Forms.DataGridView();
             this.flow3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowBoutons = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelPogress = new System.Windows.Forms.Panel();
             this.btnExportDoublons = new System.Windows.Forms.Button();
             this.btnExportFichier = new System.Windows.Forms.Button();
+            this.btnNouveau = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panelExport = new System.Windows.Forms.Panel();
+            this.lblExportDoublons = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.flowComplet.SuspendLayout();
             this.panelFichier.SuspendLayout();
             this.flowSeparateur.SuspendLayout();
@@ -69,15 +76,17 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgridResult)).BeginInit();
             this.flow3.SuspendLayout();
-            this.flowBoutons.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panelExport.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnFichier
             // 
+            this.btnFichier.Font = new System.Drawing.Font("DejaVu Serif Condensed", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFichier.Location = new System.Drawing.Point(3, 3);
             this.btnFichier.Margin = new System.Windows.Forms.Padding(3, 3, 70, 3);
             this.btnFichier.Name = "btnFichier";
-            this.btnFichier.Size = new System.Drawing.Size(80, 23);
+            this.btnFichier.Size = new System.Drawing.Size(122, 34);
             this.btnFichier.TabIndex = 0;
             this.btnFichier.Text = "&Fichier";
             this.btnFichier.UseVisualStyleBackColor = true;
@@ -85,7 +94,7 @@
             // 
             // tBxAdress
             // 
-            this.tBxAdress.Location = new System.Drawing.Point(95, 6);
+            this.tBxAdress.Location = new System.Drawing.Point(135, 8);
             this.tBxAdress.Name = "tBxAdress";
             this.tBxAdress.ReadOnly = true;
             this.tBxAdress.Size = new System.Drawing.Size(324, 20);
@@ -151,6 +160,7 @@
             // 
             // flowComplet
             // 
+            this.flowComplet.AutoSize = true;
             this.flowComplet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowComplet.Controls.Add(this.panelFichier);
             this.flowComplet.Controls.Add(this.flowSeparateur);
@@ -164,17 +174,18 @@
             this.flowComplet.Location = new System.Drawing.Point(12, 12);
             this.flowComplet.MinimumSize = new System.Drawing.Size(440, 40);
             this.flowComplet.Name = "flowComplet";
-            this.flowComplet.Size = new System.Drawing.Size(455, 347);
+            this.flowComplet.Size = new System.Drawing.Size(674, 481);
             this.flowComplet.TabIndex = 6;
             this.flowComplet.WrapContents = false;
             // 
             // panelFichier
             // 
+            this.panelFichier.AutoSize = true;
             this.panelFichier.Controls.Add(this.btnFichier);
             this.panelFichier.Controls.Add(this.tBxAdress);
             this.panelFichier.Location = new System.Drawing.Point(3, 3);
             this.panelFichier.Name = "panelFichier";
-            this.panelFichier.Size = new System.Drawing.Size(420, 30);
+            this.panelFichier.Size = new System.Drawing.Size(462, 40);
             this.panelFichier.TabIndex = 11;
             // 
             // flowSeparateur
@@ -182,7 +193,7 @@
             this.flowSeparateur.AutoSize = true;
             this.flowSeparateur.Controls.Add(this.lblChoixSeparateur);
             this.flowSeparateur.Controls.Add(this.comboSeparateur);
-            this.flowSeparateur.Location = new System.Drawing.Point(3, 39);
+            this.flowSeparateur.Location = new System.Drawing.Point(3, 49);
             this.flowSeparateur.Name = "flowSeparateur";
             this.flowSeparateur.Size = new System.Drawing.Size(355, 29);
             this.flowSeparateur.TabIndex = 10;
@@ -193,7 +204,7 @@
             this.flowColonnes.AutoSize = true;
             this.flowColonnes.Controls.Add(this.lblColonnes);
             this.flowColonnes.Controls.Add(this.tBxColonnes);
-            this.flowColonnes.Location = new System.Drawing.Point(3, 74);
+            this.flowColonnes.Location = new System.Drawing.Point(3, 84);
             this.flowColonnes.Name = "flowColonnes";
             this.flowColonnes.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.flowColonnes.Size = new System.Drawing.Size(419, 29);
@@ -205,7 +216,7 @@
             this.flowLigne.AutoSize = true;
             this.flowLigne.Controls.Add(this.lblLignes);
             this.flowLigne.Controls.Add(this.tBxLigne);
-            this.flowLigne.Location = new System.Drawing.Point(3, 109);
+            this.flowLigne.Location = new System.Drawing.Point(3, 119);
             this.flowLigne.Name = "flowLigne";
             this.flowLigne.Size = new System.Drawing.Size(419, 26);
             this.flowLigne.TabIndex = 8;
@@ -216,10 +227,10 @@
             this.flowRecherche.AutoSize = true;
             this.flowRecherche.Controls.Add(this.lblSel);
             this.flowRecherche.Controls.Add(this.flowLayoutPanel2);
-            this.flowRecherche.Location = new System.Drawing.Point(3, 141);
+            this.flowRecherche.Location = new System.Drawing.Point(3, 151);
             this.flowRecherche.Name = "flowRecherche";
             this.flowRecherche.Padding = new System.Windows.Forms.Padding(5, 10, 0, 0);
-            this.flowRecherche.Size = new System.Drawing.Size(404, 45);
+            this.flowRecherche.Size = new System.Drawing.Size(451, 56);
             this.flowRecherche.TabIndex = 12;
             this.flowRecherche.Visible = false;
             // 
@@ -241,7 +252,7 @@
             this.flowLayoutPanel2.Controls.Add(this.btnRecherche);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(92, 13);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(309, 29);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(356, 40);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
             // panel1
@@ -273,7 +284,6 @@
             this.rbtLigne.TabIndex = 0;
             this.rbtLigne.Text = "Ligne entière";
             this.rbtLigne.UseVisualStyleBackColor = true;
-            this.rbtLigne.CheckedChanged += new System.EventHandler(this.rbtLigne_CheckedChanged);
             // 
             // comboColonne
             // 
@@ -285,9 +295,10 @@
             // 
             // btnRecherche
             // 
+            this.btnRecherche.Font = new System.Drawing.Font("DejaVu Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRecherche.Location = new System.Drawing.Point(231, 3);
             this.btnRecherche.Name = "btnRecherche";
-            this.btnRecherche.Size = new System.Drawing.Size(75, 23);
+            this.btnRecherche.Size = new System.Drawing.Size(122, 34);
             this.btnRecherche.TabIndex = 3;
             this.btnRecherche.Text = "&Rechercher";
             this.btnRecherche.UseVisualStyleBackColor = true;
@@ -296,7 +307,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 192);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 213);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
             this.flowLayoutPanel1.TabIndex = 7;
@@ -305,12 +316,12 @@
             // 
             this.dtgridResult.AllowUserToAddRows = false;
             this.dtgridResult.AllowUserToDeleteRows = false;
-            this.dtgridResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
-            this.dtgridResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dtgridResult.Location = new System.Drawing.Point(3, 198);
+            this.dtgridResult.Location = new System.Drawing.Point(10, 219);
+            this.dtgridResult.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.dtgridResult.MultiSelect = false;
             this.dtgridResult.Name = "dtgridResult";
             this.dtgridResult.ReadOnly = true;
+            this.dtgridResult.RowHeadersVisible = false;
             this.dtgridResult.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dtgridResult.Size = new System.Drawing.Size(420, 95);
             this.dtgridResult.TabIndex = 7;
@@ -320,65 +331,122 @@
             // 
             this.flow3.AutoSize = true;
             this.flow3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flow3.Controls.Add(this.flowBoutons);
-            this.flow3.Controls.Add(this.btnExit);
+            this.flow3.Controls.Add(this.panel3);
+            this.flow3.Controls.Add(this.panelExport);
             this.flow3.Controls.Add(this.panel2);
-            this.flow3.Location = new System.Drawing.Point(3, 299);
+            this.flow3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flow3.Location = new System.Drawing.Point(3, 320);
             this.flow3.Name = "flow3";
-            this.flow3.Size = new System.Drawing.Size(444, 51);
+            this.flow3.Size = new System.Drawing.Size(668, 158);
             this.flow3.TabIndex = 18;
             // 
-            // flowBoutons
+            // panelPogress
             // 
-            this.flowBoutons.AutoSize = true;
-            this.flowBoutons.Controls.Add(this.btnExportDoublons);
-            this.flowBoutons.Controls.Add(this.btnExportFichier);
-            this.flowBoutons.Location = new System.Drawing.Point(3, 3);
-            this.flowBoutons.Margin = new System.Windows.Forms.Padding(3, 3, 50, 3);
-            this.flowBoutons.Name = "flowBoutons";
-            this.flowBoutons.Size = new System.Drawing.Size(278, 29);
-            this.flowBoutons.TabIndex = 16;
-            this.flowBoutons.Visible = false;
+            this.panelPogress.Location = new System.Drawing.Point(261, 17);
+            this.panelPogress.Name = "panelPogress";
+            this.panelPogress.Size = new System.Drawing.Size(398, 20);
+            this.panelPogress.TabIndex = 7;
+            this.panelPogress.Visible = false;
             // 
             // btnExportDoublons
             // 
-            this.btnExportDoublons.Location = new System.Drawing.Point(3, 3);
+            this.btnExportDoublons.Font = new System.Drawing.Font("DejaVu Serif Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportDoublons.Location = new System.Drawing.Point(375, 9);
             this.btnExportDoublons.Name = "btnExportDoublons";
-            this.btnExportDoublons.Size = new System.Drawing.Size(118, 23);
+            this.btnExportDoublons.Size = new System.Drawing.Size(110, 34);
             this.btnExportDoublons.TabIndex = 15;
-            this.btnExportDoublons.Text = "exporter les doublons";
+            this.btnExportDoublons.Text = ">> Export";
             this.btnExportDoublons.UseVisualStyleBackColor = true;
             this.btnExportDoublons.Click += new System.EventHandler(this.btnExportDoublons_Click);
             // 
             // btnExportFichier
             // 
-            this.btnExportFichier.Location = new System.Drawing.Point(127, 3);
+            this.btnExportFichier.Font = new System.Drawing.Font("DejaVu Serif Condensed", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportFichier.Location = new System.Drawing.Point(375, 49);
             this.btnExportFichier.Name = "btnExportFichier";
-            this.btnExportFichier.Size = new System.Drawing.Size(148, 23);
+            this.btnExportFichier.Size = new System.Drawing.Size(110, 34);
             this.btnExportFichier.TabIndex = 16;
-            this.btnExportFichier.Text = "export fichier sans doublons";
+            this.btnExportFichier.Text = ">> Fichier";
             this.btnExportFichier.UseVisualStyleBackColor = true;
             this.btnExportFichier.Click += new System.EventHandler(this.btnExportFichier_Click);
             // 
+            // btnNouveau
+            // 
+            this.btnNouveau.Font = new System.Drawing.Font("DejaVu Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNouveau.Location = new System.Drawing.Point(133, 3);
+            this.btnNouveau.Name = "btnNouveau";
+            this.btnNouveau.Size = new System.Drawing.Size(122, 34);
+            this.btnNouveau.TabIndex = 7;
+            this.btnNouveau.Text = "Nouveau";
+            this.btnNouveau.UseVisualStyleBackColor = true;
+            this.btnNouveau.Click += new System.EventHandler(this.btnNouveau_Click);
+            // 
             // btnExit
             // 
-            this.btnExit.Font = new System.Drawing.Font("DejaVu Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Location = new System.Drawing.Point(334, 3);
+            this.btnExit.Font = new System.Drawing.Font("DejaVu Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.Location = new System.Drawing.Point(5, 3);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(107, 39);
+            this.btnExit.Size = new System.Drawing.Size(122, 34);
             this.btnExit.TabIndex = 19;
-            this.btnExit.Text = "EXIT";
+            this.btnExit.Text = "&Quitter";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // panel2
             // 
             this.panel2.AutoSize = true;
-            this.panel2.Location = new System.Drawing.Point(78, 48);
+            this.panel2.Location = new System.Drawing.Point(78, 155);
             this.panel2.Margin = new System.Windows.Forms.Padding(78, 3, 3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(0, 0);
             this.panel2.TabIndex = 18;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // panel3
+            // 
+            this.panel3.AutoSize = true;
+            this.panel3.Controls.Add(this.panelPogress);
+            this.panel3.Controls.Add(this.btnExit);
+            this.panel3.Controls.Add(this.btnNouveau);
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(662, 40);
+            this.panel3.TabIndex = 7;
+            // 
+            // panelExport
+            // 
+            this.panelExport.Controls.Add(this.label1);
+            this.panelExport.Controls.Add(this.btnExportFichier);
+            this.panelExport.Controls.Add(this.btnExportDoublons);
+            this.panelExport.Controls.Add(this.lblExportDoublons);
+            this.panelExport.Location = new System.Drawing.Point(3, 49);
+            this.panelExport.Name = "panelExport";
+            this.panelExport.Size = new System.Drawing.Size(488, 100);
+            this.panelExport.TabIndex = 7;
+            // 
+            // lblExportDoublons
+            // 
+            this.lblExportDoublons.AutoSize = true;
+            this.lblExportDoublons.Font = new System.Drawing.Font("DejaVu Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExportDoublons.Location = new System.Drawing.Point(5, 14);
+            this.lblExportDoublons.Name = "lblExportDoublons";
+            this.lblExportDoublons.Size = new System.Drawing.Size(281, 22);
+            this.lblExportDoublons.TabIndex = 0;
+            this.lblExportDoublons.Text = "Exporter la liste des doublons";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("DejaVu Sans", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(5, 54);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(333, 22);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Enregistrer le fichier sans doublons";
             // 
             // formRechercheDoublons
             // 
@@ -386,7 +454,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(463, 592);
+            this.ClientSize = new System.Drawing.Size(698, 592);
             this.Controls.Add(this.flowComplet);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(450, 70);
@@ -409,8 +477,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgridResult)).EndInit();
             this.flow3.ResumeLayout(false);
             this.flow3.PerformLayout();
-            this.flowBoutons.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panelExport.ResumeLayout(false);
+            this.panelExport.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -440,12 +511,18 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridView dtgridResult;
         private System.Windows.Forms.Button btnExportDoublons;
-        private System.Windows.Forms.FlowLayoutPanel flowBoutons;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnExportFichier;
         private System.Windows.Forms.FlowLayoutPanel flow3;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Panel panelPogress;
+        private System.Windows.Forms.Button btnNouveau;
+        public System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panelExport;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblExportDoublons;
     }
 }
 
