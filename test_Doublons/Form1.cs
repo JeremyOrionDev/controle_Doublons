@@ -107,13 +107,26 @@ namespace test_Doublons
                 tBxAdress.Width = fileAdress.Length * 20;
                 Size size = TextRenderer.MeasureText(tBxAdress.Text, tBxAdress.Font);
                 tBxAdress.Width = size.Width;
-
-                //Récupération du nombre de lignes
-                if (original[original.Count() - 1] == "")
+                int lignes=nbLigne = original.Count();
+                for (int i = lignes-1; i >0; i--)
                 {
-                    nbLigne = original.Count() - 1;
+                    if (original[i]==string.Empty)
+                    {
+                        string[] tab = new string[original.Count() - 1];
+                        for (int j=0;j<tab.Count();j++)
+                        {
+                            if (j >= i)
+                            {
+                                tab[j] = original[j + 1];
+                            }
+                            else tab[j] = original[j];
+                        }
+                        original =new string[tab.Count()];
+                        original = tab;
+                        lignes--;
+                    }
                 }
-                else nbLigne = original.Count();
+
 
                 //Affichage des différentes zones
                 flowLigne.Visible = true;
@@ -123,7 +136,13 @@ namespace test_Doublons
                 FileInfo f = new FileInfo(fileAdress);
                 fileName = f.Name;
                 fileExt = f.Extension;
-                tBxLigne.Text = nbLigne.ToString() + " lignes.";
+                tBxLigne.Text = lignes.ToString() + " lignes.";
+                if (lignes != nbLigne)
+                {
+                    panelVide.Visible = true;
+                    tBxVides.Text = (nbLigne - lignes) + " lignes";
+                    nbLigne = lignes;
+                }
                 fileDirectory = f.DirectoryName;
 
             } 
@@ -141,6 +160,16 @@ namespace test_Doublons
             //déclaration du booléen de type de recherche (ligne ou colonne) et modification en fonction du type de recherche
             Boolean chercheLigne = true;
             if (rbtColonne.Checked) chercheLigne = false;
+            string[][] texteCol = new string[nbLigne][];
+            for (int i = 0; i < nbLigne; i++)
+            {
+                texteCol[i] = new string[nbCol];
+                string ligne = original[i];
+                for (int j = 0; j < nbCol; j++)
+                {
+                    texteCol[i][j] = ligne.Split(sep)[j];
+                }
+            }
 
             //Modification du fichier à analyser en fonction du mode de recherche
             if (chercheLigne)
@@ -151,13 +180,70 @@ namespace test_Doublons
             }
             else if (comboColonne.SelectedItem != null)
             {
+                int[][] liste = new int[nbLigne][];
+                StringCollection lesDoublons = new StringCollection();
+                int laCol = Convert.ToInt32(comboColonne.SelectedItem);
                 panelExport.Visible = true;
                 panelPogress.Visible = true;
-                text = new string[nbLigne];
                 for (int i = 0; i < nbLigne; i++)
                 {
-                    text[i] = original[i].Split(sep)[comboColonne.SelectedIndex];
+                    int qtDoublon = 0;
+                    List<int> listDblons = new List<int>();
+                    for (int j = 0; j < nbLigne; j++)
+                    {
+                        if (texteCol[i][laCol]==texteCol[j][laCol]&&i!=j)
+                        {
+            
+                            if (!listDblons.Contains(i))
+                            {
+                                listDblons.Add(i);
+                            }
+                            if (!listDblons.Contains(j))
+                            {
+                                listDblons.Add(j);
+                            }
+                            qtDoublon++;
+                        }
+                    }
+                    //todo liste
+                    liste[i] = new int[qtDoublon];
+                    for (int j= 1; j < listDblons.Count; j++)
+                    {
+                        liste[i][j-1] = listDblons[j];
+                    }
                 }
+                DataTable DT=new DataTable();
+                DataRow DR;
+                dtgridResult.Visible = true;
+                DT.Columns.Add(new DataColumn("élément", typeof(string)));
+                DT.Columns.Add(new DataColumn("1er", typeof(string)));
+                DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
+                for (int i = 0; i < liste.Count(); i++)
+                {
+                    if (liste[i].Count()!=0)
+                    {
+                        DR = DT.NewRow();
+                        DR[0] = texteCol[i][laCol];
+                        DR[1] = i+1;
+                        if (liste[i].Count()>1)
+                        {
+                            string result = "";
+                            foreach (int item in liste[i])
+                            {
+                                result += item + ";";
+                            }
+                            DR[2] = result;
+                        }
+                        else
+                        {
+                            DR[2] = liste[i][0];
+
+                        }
+                        DT.Rows.Add(DR);
+                    }
+                }
+                dtgridResult.DataSource = DT;
+                panelExport.Visible = true;
             }
             else
             {
@@ -165,147 +251,153 @@ namespace test_Doublons
                 return;
             }
             
-            //Création de la liste des doubles
-                List<int> listeDbl = new List<int>();
-            //Création du tableau des doublons complet de la taille du nombre de lignes
-            tableau = new StringCollection();
+            ////Création de la liste des doubles
+            //    List<int> listeDbl = new List<int>();
+            ////Création du tableau des doublons complet de la taille du nombre de lignes
+            //tableau = new StringCollection();
             
-            tableauComplet = new int[nbLigne][];
-            //compteur de doublons trouvé par élément
-            int totalDoublons = 0;
-            progress= new ProgressBar();
-            panelPogress.Controls.Add(progress);
-            progress.Tag = "recherche";
-            progress.Maximum = nbLigne-1;
+            //tableauComplet = new int[nbLigne][];
+            ////compteur de doublons trouvé par élément
+            //int totalDoublons = 0;
+            //progress= new ProgressBar();
+            //panelPogress.Controls.Add(progress);
+            //progress.Tag = "recherche";
+            //progress.Maximum = nbLigne-1;
             
-            //Boucle de recherche
-            for (int i = 0; i < nbLigne; i++)
-            {
-                int nbDoublon = 0;
-                progress.Value = i;
-                tableauComplet[i] = new int[10];
-                for (int j = 0; j < nbLigne; j++)
-                {
-                    if (text[i] == text[j] && i != j)
-                    {
-                        if (!listeDbl.Contains(i))
-                        {
-                            listeDbl.Add(i);
-                        }
-                        totalDoublons++;
-                        tableauComplet[i][nbDoublon] = j;
-                        nbDoublon++;
-                    }
+            ////Boucle de recherche
+            //for (int i = 0; i < nbLigne; i++)
+            //{
+            //    int nbDoublon = 0;
+            //    for (int j = 0; j < nbLigne; j++)
+            //    {
+            //        if (text[i]==text[j]&&i!=j)
+            //        {
+            //            nbDoublon++;
+            //        }
+            //    }
+            //    progress.Value = i;
+            //    tableauComplet[i] = new int[nbDoublon];
+            //    for (int j = 0; j < nbLigne; j++)
+            //    {
+            //        nbDoublon = 0;
+            //        if (text[i] == text[j] && i != j)
+            //        {
+            //            if (!listeDbl.Contains(i))
+            //            {
+            //                listeDbl.Add(i);
+            //            }
+            //            totalDoublons++;
+            //            tableauComplet[i][nbDoublon] = j;
+            //            nbDoublon++;
+            //        }
 
-                }
-            }
-            panelPogress.Controls.RemoveAt(0);
-            progress = new ProgressBar();
-            panelPogress.Controls.Add(progress);
-            progress.Maximum = listeDbl.Count-1;
-            //Création de la liste de doublons en fonction de leur nombre
-            lesDoublons = new int[listeDbl.Count()][];
-            //Boucle de remplissage du tableau de doublons
-            for (int i = 0; i < listeDbl.Count(); i++)
-            {
-                progress.Value = i;
-                List<int> tempDbl = new List<int>();
-                for (int x = 0; x < 10; x++)
-                {
-                    if (tableauComplet[listeDbl[i]][x] != 0)
-                    {
-                        tempDbl.Add(tableauComplet[listeDbl[i]][x]);
-                    }
-                }
+            //    }
+            //}
+            //panelPogress.Controls.RemoveAt(0);
+            //progress = new ProgressBar();
+            //panelPogress.Controls.Add(progress);
+            //progress.Maximum = listeDbl.Count;
+            ////Création de la liste de doublons en fonction de leur nombre
+            //lesDoublons = new int[listeDbl.Count()][];
+            ////Boucle de remplissage du tableau de doublons
+            //for (int i = 0; i < listeDbl.Count(); i++)
+            //{
+            //    progress.Value = i;
+            //    List<int> tempDbl = new List<int>();
+            //    for (int x = 0; x < tableauComplet[listeDbl[i]].Count(); x++)
+            //    {
+            //        if (tableauComplet[listeDbl[i]][x] != 0)
+            //        {
+            //            tempDbl.Add(tableauComplet[listeDbl[i]][x]);
+            //        }
+            //    }
 
-                int nbDoublon = tableauComplet[listeDbl[i]].Count();
-                lesDoublons[i] = new int[tempDbl.Count() + 1];
-                for (int j = 0; j < tempDbl.Count(); j++)
-                {
-                    lesDoublons[i][j] = tableauComplet[tempDbl[j]][j];
-                    lesDoublons[i][j + 1] = tempDbl[j];
-                }
-            }
-            panelPogress.Visible = false;
-            //Si aucun doublon n'est trouvé on l'affiche
-            if (lesDoublons.Count() == 0)
-            {
-                MessageBox.Show("Aucun doublon trouvé dans le fichier ");
-            }
-            else
-            {
-                //Création de la datatable affichant les résultats
-                DataTable DT = new System.Data.DataTable();
-                DataRow DR;
-                dtgridResult.Visible = true;
-                DT.Columns.Add(new DataColumn("élément", typeof(string)));
-                DT.Columns.Add(new DataColumn("1er", typeof(string)));
-                DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
+            //    int nbDoublon = tableauComplet[listeDbl[i]].Count();
+            //    lesDoublons[i] = new int[tempDbl.Count() + 1];
+            //    for (int j = 0; j < tempDbl.Count(); j++)
+            //    {
+            //        lesDoublons[i][j] = tableauComplet[tempDbl[j]][j];
+            //        lesDoublons[i][j + 1] = tempDbl[j];
+            //    }
+            //}
+            //panelPogress.Visible = false;
+            //int qteDoublons = lesDoublons.Count() / 2;
+            ////Si aucun doublon n'est trouvé on l'affiche
+            //if (qteDoublons == 0)
+            //{
+            //    MessageBox.Show("Aucun doublon trouvé dans le fichier ");
+            //    panelExport.Visible = false;
+            //}
+            //else 
+            //{
+            //    panelTrouve.Visible = true;
+            //    labelTrouve.Text = qteDoublons + " doublons trouvés";
 
-                //Boucle de remplissage de de la dataTable avec les doublons et numero de lignes
-                for (int x = 0; x < lesDoublons.Count(); x++)
-                {
-                    DR = DT.NewRow();
-                    string lines = "";
-                    string texte = text[lesDoublons[x][0]];
-                    int tailleTexte =0;
-                    if( TextRenderer.MeasureText(texte, SystemFonts.DefaultFont).Width>tailleTexte)tailleTexte= TextRenderer.MeasureText(texte, SystemFonts.DefaultFont).Width;
-                    if (tailleTexte+200<Screen.PrimaryScreen.WorkingArea.Width&&rbtLigne.Checked)
-                    {
-                        dtgridResult.Width = tailleTexte + 137;
-                    }
-                    else if (tailleTexte + 200 < Screen.PrimaryScreen.WorkingArea.Width && rbtColonne.Checked)
-                    {
-                        dtgridResult.Width = tailleTexte + 132;
-                    }
-                    DR[0] = texte;
-                    DR[1] = lesDoublons[x][0] + 1;
+            //    panelTrouve.AutoSize = true;
 
-                    for (int i = 0; i < lesDoublons[x].Count(); i++)
-                    {
-                        if (!doubles.Contains(lesDoublons[x][i]) && i != 0 && lesDoublons[x][i] > lesDoublons[x][i - 1])
-                        {
-                            doubles.Add(lesDoublons[x][i]);
-                            lines = lines + (lesDoublons[x][i] + 1) + ";";
-                        }
-                    }
-                    //Ajout des lignes qui contiennent des doublons uniquement
-                    if (lines != "")
-                    {
-                        DR[2] = lines;
-                        DT.Rows.Add(DR);
-                    }
-                }
+            //    //Création de la datatable affichant les résultats
+            //    DataTable DT = new System.Data.DataTable();
+            //    DataRow DR;
+            //    dtgridResult.Visible = true;
+            //    DT.Columns.Add(new DataColumn("élément", typeof(string)));
+            //    DT.Columns.Add(new DataColumn("1er", typeof(string)));
+            //    DT.Columns.Add(new DataColumn("Doublons", typeof(string)));
 
-                btnExportDoublons.Visible = true;
+            //    //Boucle de remplissage de de la dataTable avec les doublons et numero de lignes
+            //    for (int x = 0; x < lesDoublons.Count(); x++)
+            //    {
+            //        DR = DT.NewRow();
+            //        string lines = "";
+            //        string texte = text[lesDoublons[x][0]];
+            //        int tailleTexte =0;
+            //        if( TextRenderer.MeasureText(texte, SystemFonts.DefaultFont).Width>tailleTexte)tailleTexte= TextRenderer.MeasureText(texte, SystemFonts.DefaultFont).Width;
+            //        if (tailleTexte+200<Screen.PrimaryScreen.WorkingArea.Width&&rbtLigne.Checked)
+            //        {
+            //            dtgridResult.Width = tailleTexte + 137;
+            //        }
+            //        else if (tailleTexte + 200 < Screen.PrimaryScreen.WorkingArea.Width && rbtColonne.Checked)
+            //        {
+            //            dtgridResult.Width = tailleTexte + 132;
+            //        }
+            //        DR[0] = texte;
+            //        DR[1] = lesDoublons[x][0] + 1;
+                  
+            //        for (int i = 0; i < lesDoublons[x].Count(); i++)
+            //        {
+            //            if (!doubles.Contains(lesDoublons[x][i])&&!doubles.Contains(x) && i != 0 && lesDoublons[x][i] > lesDoublons[x][i - 1])
+            //            {
+            //                //todo faire liste unique
+            //                doubles.Add(lesDoublons[x][i]);
+            //                lines = lines + (lesDoublons[x][i] + 1) + ";";
+            //            }
+            //        }
+            //        //Ajout des lignes qui contiennent des doublons uniquement
+            //        if (lines != "")
+            //        {
+            //            DR[2] = lines;
+            //            DT.Rows.Add(DR);
+            //        }
+            //    }
 
-                btnExportFichier.Visible = true;
-                dtgridResult.Refresh();
-                if (lesDoublons.Count()>20)               
-                {
-                    this.Top = 0;
-                    dtgridResult.Height =Screen.PrimaryScreen.WorkingArea.Height-400;                        
-                    dtgridResult.ScrollBars = ScrollBars.Both;
-                }
-                flow3.Width = dtgridResult.Width;
-                //Préparation de la dataGrid pour l'affichage 
-                dtgridResult.DataSource = DT;
-                if (dtgridResult.Rows.Count<=20)
-                {
+            //    btnExportDoublons.Visible = true;
+            //    btnExportFichier.Visible = true;
+            //    dtgridResult.Refresh();
+            //    if (lesDoublons.Count()>20)               
+            //    {
+            //        this.Top = 0;
+            //        dtgridResult.ScrollBars = ScrollBars.Both;
+            //    }
+            //    flow3.Width = dtgridResult.Width;
+            //    //Préparation de la dataGrid pour l'affichage 
+            //    dtgridResult.DataSource = DT;
+            //    dtgridResult.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //    dtgridResult.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
+            //    dtgridResult.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                
+                
 
-                    int htGrid = dtgridResult.ColumnHeadersHeight;
-                    foreach (DataGridViewRow row in dtgridResult.Rows)
-                    {
-                        htGrid += row.Height;
-                    }
-                    dtgridResult.Height = htGrid+2;
-                    //dtgridResult.Width = tailleT + 2;
-                    dtgridResult.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    dtgridResult.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-                    dtgridResult.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                }
-            }
-
+            //}
+            
         }
 
         /// <summary>
@@ -326,6 +418,7 @@ namespace test_Doublons
             }
             else
             {
+
                 //Vérification du dernier caractère, si celui-ci est un séparateur et récupération du nombre de colonnes
                 if (original[1].LastIndexOf(sep) == original[1].Length - 1)
                 {
